@@ -12,7 +12,7 @@ To use the Kinect sensor, install the following from Microsoft.
 
 - [Kinect for Windows Developer Toolkit v1.8](https://www.microsoft.com/en-us/download/confirmation.aspx?id=40276)
 - [Kinect for Windows SDK 1.8](https://www.microsoft.com/en-us/download/confirmation.aspx?id=40278)
-- [Kinect for Windows Runtime 2.0](https://www.microsoft.com/en-us/download/confirmation.aspx?id=44559) ~
+<!---- [Kinect for Windows Runtime 2.0](https://www.microsoft.com/en-us/download/confirmation.aspx?id=44559) ~-->
 
 
 ## Using Processing

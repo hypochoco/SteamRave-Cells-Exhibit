@@ -5,6 +5,7 @@ Projection art with the v1 Kinect Sensor (Xbox 1414)
 ## Notes
 
 - Daniel and I are using Windows. We're not sure how everything else works on Mac, so you may have to figure that out.
+- To run the program, you can just clone (or download the file) anywhere on your computer and double-click to run it. The processing application folder does not need to be in the same folder.
 
 ## Installing Kinect Software (Windows)
 

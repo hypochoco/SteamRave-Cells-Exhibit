@@ -31,3 +31,7 @@ Open the processing application and go to the top where it says "Sketch". Next, 
 
 - **Kinect4WinSDK** by Bryan Chung
 - **Keystone** by David Bouchard - [guide](https://fh-potsdam.github.io/doing-projection-mapping/processing-keystone/)
+
+## Future Ideas
+- saturation or the shape changes depending on the number of people in the plain
+

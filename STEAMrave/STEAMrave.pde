@@ -39,8 +39,9 @@ void setup(){
 void draw(){
   float halfWidth = width/2;
   float halfHeight = height/2;
-  end = map(getMaxDepth(),depthMin,depthMax,start,100);
-  if (getMaxDepth() == 0){end = 100;}
+  float maxDepth = getMaximumDepth(20, true);
+  end = map(maxDepth,depthMin,depthMax,start,100);
+  if (maxDepth == 0){end = 100;} // in case too close
   for (int i=0; i<iteration; i++){
     
     float s = map(i, 0, iteration, start, end);
@@ -59,16 +60,23 @@ void drawRect(float centerX, float centerY, float w, float h, float saturation){
 }
 
 
-// 255 (closer) - 0 (farther)
-float getMaxDepth()
-{
+/*
+getMaximumDepth -
+Iterates through every nth pixel and returns the value with the lowest depth (i.e. closest to the sensor).
+(From testing, it seems that 230 is the highest (close in proximity) value we can achieve,
+and 0 is the lowest (farthest in proximity) value)
+
+INPUTS:
+  n - One in every n pixel will be compared
+  display - selecting true displays the depth image from the kinect
+*/
+float getMaximumDepth(int n, Boolean display) {
   PImage img = kinect.GetDepth();
+  if (display) image(img,0,0);
   float maxB = 0;
-  int skip = 30;
-  for (int i = 0; i < img.pixels.length; i+=skip) {
+  for (int i = 0; i < img.pixels.length; i+=n) {
     float b = brightness(img.pixels[i]);
     if (b > maxB) maxB = b;
   }
-  println(maxB);
-  return(maxB);
+  return maxB;
 }

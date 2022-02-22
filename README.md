@@ -2,6 +2,24 @@
 
 Projection art with the v1 Kinect Sensor (Xbox 1414)
 
+## Goal
+
+We want to output a row of panels with changing colors. Something like the following
+
+![goal](https://user-images.githubusercontent.com/84194796/155063054-f6c4c3b6-186c-4a4c-b855-321a964139c3.png)
+
+The three rows are three different ideas that we have. The left side will rotate through colors from one end of the spectrum, and the right side will rotate colors fromt the other end of the spectrum. At some point in the middle, they will meet in the middle and match colors, and then continue the color changing cycle.
+
+We want to use the Kinect sensor to find the distance of the viewer. Then, we want to change the size of the inner panels based on how far the viewer (farther = smaller, closer = bigger). Later, we want to experiment changed focus based on the distance, possibly saturation/color (farther = blurrier, closer = clearer).
+
+## Exhibit
+
+The actual exhibit will project this image onto panels arranged in a jutting arrangement so that only one side of the panels will be viewable from the side. The Kinect sensor will measure how far the viewer is from the exhibit.
+
+![6](https://user-images.githubusercontent.com/84194796/155063965-cc14f2b0-dc16-4969-b82b-4b62791669eb.jpg)
+
+In the picture above, two projectors were used, but we will only use one projector. We can adjust the shape projection images to match the panels by using the Keystone library (see below).
+
 ## Notes
 
 - Daniel and I are using Windows. So far (2/21) all of the files are for Windows. Mac uses a different library, see below.

@@ -5,6 +5,7 @@ Projection art with the v1 Kinect Sensor (Xbox 1414)
 ## Notes
 
 - Daniel and I are using Windows. We're not sure how everything else works on Mac, so you may have to figure that out.
+- For Mac, Daniel Shiffman has a good library with good documentation on his [website](https://shiffman.net/p5/kinect/)
 - To run the program, you can just clone (or download the file) anywhere on your computer and double-click to run it. The processing application folder does not need to be in the same folder.
 
 ## Installing Kinect Software (Windows)
@@ -29,4 +30,4 @@ Unzip the download into a folder you want to work in. In the folder, open the pr
 Open the processing application and go to the top where it says "Sketch". Next, go to "Import Library" -> "Add Library". In the search bar, search for the following libraries and install them.
 
 - **Kinect4WinSDK** by Bryan Chung
-- **Keystone** by David Bouchard
+- **Keystone** by David Bouchard - [guide](https://fh-potsdam.github.io/doing-projection-mapping/processing-keystone/)

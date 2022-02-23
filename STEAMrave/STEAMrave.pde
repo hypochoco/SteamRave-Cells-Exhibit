@@ -12,12 +12,26 @@ int numScreen = 1;
 
 Kinect kinect;
 Keystone ks;
-ArrayList<CornerPinSurface> surfaces;
-ArrayList<PGraphics> offscreen;
+CornerPinSurface surface1;
+CornerPinSurface surface2;
+CornerPinSurface surface3;
+CornerPinSurface surface4;
+CornerPinSurface surface5;
+CornerPinSurface surface6;
+CornerPinSurface surface7;
+CornerPinSurface surface8;
+PGraphics screen1;
+PGraphics screen2;
+PGraphics screen3;
+PGraphics screen4;
+PGraphics screen5;
+PGraphics screen6;
+PGraphics screen7;
+PGraphics screen8;
 
 void setup(){
   background(0);
-  size(800,800,P3D);
+  size(1920,1080,P3D);
   colorMode(HSB,360,100,100);
   fill(0,start,100);
   rect(0,0,800,800);
@@ -26,12 +40,23 @@ void setup(){
   kinect = new Kinect(this);
   ks = new Keystone(this);
   
-  for (int i = 0; i < numScreen; i++) {
-    PGraphics newScreen = createGraphics(800, 800, P3D);
-    CornerPinSurface newSurface = ks.createCornerPinSurface(800, 800, 20);
-    offscreen.add(newScreen);
-    surfaces.add(newSurface);
-  }
+  screen1 = createGraphics(100, 100, P3D);
+  screen2 = createGraphics(100, 100, P3D);
+  screen3 = createGraphics(100, 100, P3D);
+  screen4 = createGraphics(100, 100, P3D);
+  screen5 = createGraphics(100, 100, P3D);
+  screen6 = createGraphics(100, 100, P3D);
+  screen7 = createGraphics(100, 100, P3D);
+  screen8 = createGraphics(100, 100, P3D);
+  
+  surface1 = ks.createCornerPinSurface(100, 100, 20);
+  surface2 = ks.createCornerPinSurface(100, 100, 20);
+  surface3 = ks.createCornerPinSurface(100, 100, 20);
+  surface4 = ks.createCornerPinSurface(100, 100, 20);
+  surface5 = ks.createCornerPinSurface(100, 100, 20);
+  surface6 = ks.createCornerPinSurface(100, 100, 20);
+  surface7 = ks.createCornerPinSurface(100, 100, 20);
+  surface8 = ks.createCornerPinSurface(100, 100, 20);
 }
 
 
@@ -49,15 +74,15 @@ void draw(){
     drawRect(halfWidth, halfHeight, w, h, s);
   }
   
-  //offscreen1.beginDraw();
-  //offscreen1.fill(0, 100, 100);
-  //offscreen1.rect(0,0,400, 400);
-  //offscreen1.endDraw();
-  
   background(0);
-  for (int i = 0; i < numScreen; i++) {
-    surfaces.get(i).render(offscreen.get(i));
-  }
+  surface1.render(screen1);
+  surface2.render(screen2);
+  surface3.render(screen3);
+  surface4.render(screen4);
+  surface5.render(screen5);
+  surface6.render(screen6);
+  surface7.render(screen7);
+  surface8.render(screen8);
 }
 
 /*
@@ -67,13 +92,46 @@ draws panel to screen
 void drawRect(float centerX, float centerY, float w, float h, float saturation){
   float halfWidth = w/2;
   float halfHeight = h/2;
-  for (int i = 0; i < numScreen; i++) {
-    offscreen.get(i).beginDraw();
-    offscreen.get(i).fill(0,saturation,100);
-    offscreen.get(i).noStroke();
-    offscreen.get(i).rect(centerX-halfWidth,centerY-halfHeight,w,h);
-    offscreen.get(i).endDraw();
-  }
+  screen1.beginDraw();
+  screen1.fill(0,saturation,100);
+  screen1.noStroke();
+  screen1.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen1.endDraw();
+  screen2.beginDraw();
+  screen2.fill(0,saturation,100);
+  screen2.noStroke();
+  screen2.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen2.endDraw();
+  screen3.beginDraw();
+  screen3.fill(0,saturation,100);
+  screen3.noStroke();
+  screen3.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen3.endDraw();
+  screen4.beginDraw();
+  screen4.fill(0,saturation,100);
+  screen4.noStroke();
+  screen4.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen4.endDraw();
+  screen5.beginDraw();
+  screen5.fill(0,saturation,100);
+  screen5.noStroke();
+  screen5.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen5.endDraw();
+  screen6.beginDraw();
+  screen6.fill(0,saturation,100);
+  screen6.noStroke();
+  screen6.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen6.endDraw();
+  screen7.beginDraw();
+  screen7.fill(0,saturation,100);
+  screen7.noStroke();
+  screen7.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen7.endDraw();
+  screen8.beginDraw();
+  screen8.fill(0,saturation,100);
+  screen8.noStroke();
+  screen8.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen8.endDraw();
 }
 
 /*

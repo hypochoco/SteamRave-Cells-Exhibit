@@ -74,7 +74,7 @@ void draw(){
     float s = map(i, 0, iteration, start, end);
     float w = map(i, 0, iteration, width, rectWidth);
     float h = map(i, 0, iteration, height, rectHeight);    
-    drawRect(halfWidth, halfHeight, w, h, s);
+    drawRect(90, 90, 25, 0.7);
   }
   
   background(0);
@@ -84,60 +84,83 @@ void draw(){
 /*
 drawRect - 
 draws panel to screen
+rdark - "darkness" of outer rectangle
+rbright - "brightness" of outer rectangle
+cdif - difference of brightness bewteen inner cell and outer rect
+cratio - ratio of size between inner cell and outer rect
 */
-void drawRect(float centerX, float centerY, float w, float h, float saturation){
-  float halfWidth = w/2;
-  float halfHeight = h/2;
+void drawRect(float rdark, float rbright, float cdif, float cratio){
+  float cdark = rdark;
+  float cbright = rbright - cdif;
+  float cwidth = ceil(rectWidth * cratio);
+  float cheight = ceil(rectHeight * cratio);
+  float cx = ceil((rectWidth - cwidth) / 2);
+  float cy = ceil((rectHeight - cheight) /2);
   int colorCycleL = frameCount%360;
   int colorCycleR = 360 - colorCycleL;
+  
   screen1.beginDraw();
-  //screen1.fill(0,saturation,100);
-  screen1.fill(color(colorCycleL, 100, 100));
+  screen1.fill(color(colorCycleL, rbright, rdark));
   screen1.noStroke();
   screen1.rect(0, 0, rectWidth, rectHeight);
-  screen1.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen1.fill(color(colorCycleL, cbright, cdark));
+  screen1.rect(cx, cy, cwidth, cheight);
   screen1.endDraw();
+  
   screen2.beginDraw();
-  //screen2.fill(0,saturation,100);
-  screen2.fill(color(colorCycleR, 100, 100));
+  screen2.fill(color(colorCycleR, rbright, rdark));
   screen2.noStroke();
-  screen2.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen2.rect(0, 0, rectWidth, rectHeight);
+  screen2.fill(color(colorCycleR, cbright, cdark));
+  screen2.rect(cx, cy, cwidth, cheight);
   screen2.endDraw();
+  
   screen3.beginDraw();
-  //screen3.fill(0,saturation,100);
-  screen3.fill(color(colorCycleL, 100, 100));
+  screen3.fill(color(colorCycleL, rbright, rdark));
   screen3.noStroke();
-  screen3.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen3.rect(0, 0, rectWidth, rectHeight);
+  screen3.fill(color(colorCycleL, cbright, cdark));
+  screen3.rect(cx, cy, cwidth, cheight);
   screen3.endDraw();
+  
   screen4.beginDraw();
-  //screen4.fill(0,saturation,100);
-  screen4.fill(color(colorCycleR, 100, 100));
+  screen4.fill(color(colorCycleR, rbright, rdark));
   screen4.noStroke();
-  screen4.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen4.rect(0, 0, rectWidth, rectHeight);
+  screen4.fill(color(colorCycleR, cbright, cdark));
+  screen4.rect(cx, cy, cwidth, cheight);
   screen4.endDraw();
+  
   screen5.beginDraw();
-  //screen5.fill(0,saturation,100);
-  screen5.fill(color(colorCycleL, 100, 100));
+  screen5.fill(color(colorCycleL, rbright, rdark));
   screen5.noStroke();
-  screen5.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen5.rect(0, 0, rectWidth, rectHeight);
+  screen5.fill(color(colorCycleL, cbright, cdark));
+  screen5.rect(cx, cy, cwidth, cheight);
   screen5.endDraw();
+  
   screen6.beginDraw();
-  //screen6.fill(0,saturation,100);
-  screen6.fill(color(colorCycleR, 100, 100));
+  screen6.fill(color(colorCycleR, rbright, rdark));
   screen6.noStroke();
-  screen6.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen6.rect(0, 0, rectWidth, rectHeight);
+  screen6.fill(color(colorCycleR, cbright, cdark));
+  screen6.rect(cx, cy, cwidth, cheight);
   screen6.endDraw();
+  
   screen7.beginDraw();
-  //screen7.fill(0,saturation,100);
-  screen7.fill(color(colorCycleL, 100, 100));
+  screen7.fill(color(colorCycleL, rbright, rdark));
   screen7.noStroke();
-  screen7.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen7.rect(0, 0, rectWidth, rectHeight);
+  screen7.fill(color(colorCycleL, cbright, cdark));
+  screen7.rect(cx, cy, cwidth, cheight);
   screen7.endDraw();
+  
   screen8.beginDraw();
-  //screen8.fill(0,saturation,100);
-  screen8.fill(color(colorCycleR, 100, 100));
+  screen8.fill(color(colorCycleR, rbright, rdark));
   screen8.noStroke();
-  screen8.rect(centerX-halfWidth,centerY-halfHeight,w,h);
+  screen8.rect(0, 0, rectWidth, rectHeight);
+  screen8.fill(color(colorCycleR, cbright, cdark));
+  screen8.rect(cx, cy, cwidth, cheight);
   screen8.endDraw();
 }
 

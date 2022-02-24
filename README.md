@@ -9,7 +9,7 @@ Processing
 - Adjust getMaxDepth() to only get the max depth of human figures (idea to use mask and compare pixels)
 - Adjust color of the 8 keystone surfaces
 - test kinect with the keystone implementation
-- change position of keystone surfaces
+- (COMPLETED) change position of keystone surfaces
 
 Python
 

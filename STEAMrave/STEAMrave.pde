@@ -4,8 +4,10 @@ import deadpixel.keystone.*;
 int start = 30;
 float end = 100;
 int iteration = 10;
-int rectWidth = 700;
-int rectHeight = 700;
+int dispWidth = 1920;
+int dispHeight = 1080;
+int rectWidth = dispWidth / 8;
+int rectHeight = ceil(1.618 * rectWidth); // golden ratio
 int depthMax = 90;
 int depthMin = 60;
 int numScreen = 1;
@@ -40,23 +42,24 @@ void setup(){
   kinect = new Kinect(this);
   ks = new Keystone(this);
   
-  screen1 = createGraphics(100, 100, P3D);
-  screen2 = createGraphics(100, 100, P3D);
-  screen3 = createGraphics(100, 100, P3D);
-  screen4 = createGraphics(100, 100, P3D);
-  screen5 = createGraphics(100, 100, P3D);
-  screen6 = createGraphics(100, 100, P3D);
-  screen7 = createGraphics(100, 100, P3D);
-  screen8 = createGraphics(100, 100, P3D);
+  screen1 = createGraphics(rectWidth, rectHeight, P3D);
+  screen2 = createGraphics(rectWidth, rectHeight, P3D);
+  screen3 = createGraphics(rectWidth, rectHeight, P3D);
+  screen4 = createGraphics(rectWidth, rectHeight, P3D);
+  screen5 = createGraphics(rectWidth, rectHeight, P3D);
+  screen6 = createGraphics(rectWidth, rectHeight, P3D);
+  screen7 = createGraphics(rectWidth, rectHeight, P3D);
+  screen8 = createGraphics(rectWidth, rectHeight, P3D);
   
-  surface1 = ks.createCornerPinSurface(100, 100, 20);
-  surface2 = ks.createCornerPinSurface(100, 100, 20);
-  surface3 = ks.createCornerPinSurface(100, 100, 20);
-  surface4 = ks.createCornerPinSurface(100, 100, 20);
-  surface5 = ks.createCornerPinSurface(100, 100, 20);
-  surface6 = ks.createCornerPinSurface(100, 100, 20);
-  surface7 = ks.createCornerPinSurface(100, 100, 20);
-  surface8 = ks.createCornerPinSurface(100, 100, 20);
+  surface1 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface2 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface3 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface4 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface5 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface6 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface7 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  surface8 = ks.createCornerPinSurface(rectWidth, rectHeight, 20);
+  move_surfaces();
 }
 
 
@@ -75,14 +78,7 @@ void draw(){
   }
   
   background(0);
-  surface1.render(screen1);
-  surface2.render(screen2);
-  surface3.render(screen3);
-  surface4.render(screen4);
-  surface5.render(screen5);
-  surface6.render(screen6);
-  surface7.render(screen7);
-  surface8.render(screen8);
+  render_surfaces();
 }
 
 /*
@@ -132,6 +128,35 @@ void drawRect(float centerX, float centerY, float w, float h, float saturation){
   screen8.noStroke();
   screen8.rect(centerX-halfWidth,centerY-halfHeight,w,h);
   screen8.endDraw();
+}
+
+/*
+move all surfaces to line up
+*/
+void move_surfaces() {
+  int centAlign = (dispHeight - rectHeight)/2;
+  surface1.moveTo(0,centAlign);
+  surface2.moveTo(rectWidth,centAlign);
+  surface3.moveTo(2*rectWidth,centAlign);
+  surface4.moveTo(3*rectWidth,centAlign);
+  surface5.moveTo(4*rectWidth,centAlign);
+  surface6.moveTo(5*rectWidth,centAlign);
+  surface7.moveTo(6*rectWidth,centAlign);
+  surface8.moveTo(7*rectWidth,centAlign);
+}
+
+/*
+render all surfaces
+*/
+void render_surfaces() {
+  surface1.render(screen1);
+  surface2.render(screen2);
+  surface3.render(screen3);
+  surface4.render(screen4);
+  surface5.render(screen5);
+  surface6.render(screen6);
+  surface7.render(screen7);
+  surface8.render(screen8);
 }
 
 /*

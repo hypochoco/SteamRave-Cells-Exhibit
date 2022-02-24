@@ -2,6 +2,21 @@
 
 Projection art with the v1 Kinect Sensor (Xbox 1414)
 
+## Tasks
+
+Processing
+
+- Adjust getMaxDepth() to only get the max depth of human figures (idea to use mask and compare pixels)
+- Adjust color of the 8 keystone surfaces
+- test kinect with the keystone implementation
+- change position of keystone surfaces
+
+Python
+
+- find a library to be able to use Kinect sensore v1. (there exists pykinect2 for v2, not sure if it works for v1)
+- find a way to use keystone correction (we want to be able to transform the shape each panel to match the projection irl)
+- adjust resolution/ratio of graphic to match that of projector (1920 x 1080)
+
 ## Goal
 
 We want to output a row of panels with changing colors. Something like the following

@@ -6,10 +6,11 @@ Projection art with the v1 Kinect Sensor (Xbox 1414)
 
 Processing
 
-- Adjust getMaxDepth() to only get the max depth of human figures (idea to use mask and compare pixels)
-- Adjust color of the 8 keystone surfaces
-- test kinect with the keystone implementation
-- (COMPLETED) change position of keystone surfaces
+- (**COMPLETED**) Adjust getMaxDepth() to only get the max depth of human figures (idea to use mask and compare pixels)
+- (**COMPLETED**) test kinect with the keystone implementation
+- (**COMPLETED**) change position of keystone surfaces
+- adjust colors on panels
+- adjust other effects - blur, focus, gradient, etc.
 
 Python
 

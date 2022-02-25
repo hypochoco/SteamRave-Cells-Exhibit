@@ -1,3 +1,9 @@
+/*
+
+CHANGES SIZE OF INNER CELL BASED ON DEPTH
+
+*/
+
 import kinect4WinSDK.Kinect;
 import kinect4WinSDK.SkeletonData;
 import deadpixel.keystone.*;
@@ -5,12 +11,17 @@ import deadpixel.keystone.*;
 // DIMENSIONS FOR EACH PANEL
 int rectWidth;
 int rectHeight;
+// DIMENSION BOUNDS FOR CELL
+float maxcratio = 0.7;
+float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
 Boolean show_kinect = true;
 // CALIBRATION FOR DEPTH
-float dlow = 80;
-float dspan = 10;
+float dlow = 70;
+float dspan = 20;
+// SPEED FOR COLOR CYCLING
+float speed = 0.25;
 
 Kinect kinect;
 Keystone ks;
@@ -72,8 +83,14 @@ void setup() {
 
 void draw() {
   float dd = getMaximumDepth();
-  float rat = (dd - dlow)/dspan; // TODO adjust calibration
-  drawPanels(90, 90, 25, rat); // TODO adjust color
+  float kratio;
+  if (dd < dlow) {
+    kratio = 0;
+  } else {
+    kratio = (dd - dlow)/dspan; // TODO adjust calibration
+  }
+  float cratio = (maxcratio-mincratio)*kratio + mincratio;
+  drawPanels(70, 100, 3, cratio); // TODO adjust color
   background(0);
   render_surfaces();
 }
@@ -87,13 +104,13 @@ drawPanels -
  cratio - ratio of size between inner cell and outer rect
  */
 void drawPanels(float rdark, float rbright, float cdif, float cratio) {
-  float cdark = rdark;
-  float cbright = rbright - cdif;
+  float cdark = rdark - cdif;
+  float cbright = rbright;
   float cwidth = ceil(rectWidth * cratio);
   float cheight = ceil(rectHeight * cratio);
   float cx = ceil((rectWidth - cwidth) / 2);
   float cy = ceil((rectHeight - cheight) /2);
-  int colorCycleL = frameCount%360;
+  int colorCycleL = ceil(speed*frameCount)%360;
   int colorCycleR = 360 - colorCycleL;
 
   screen1.beginDraw();

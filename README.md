@@ -74,6 +74,7 @@ Open the processing application and go to the top where it says "Sketch". Next, 
 
 ## Future Ideas
 - saturation or the shape changes depending on the number of people in the plain
-
+- project sillhouette onto panel (drake vibes)
+- adjust panels based on location x axis
 
 

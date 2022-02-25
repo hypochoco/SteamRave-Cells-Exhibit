@@ -13,7 +13,7 @@ void setup()
 void draw()
 {
   background(0);
-  println(getMaximumDepth(20, true));
+  println(getMaximumDepth(700, true));
 }
 
 /*
@@ -28,9 +28,12 @@ INPUTS:
 */
 float getMaximumDepth(int n, Boolean display) {
   PImage img = kinect.GetDepth();
+  PImage mask = kinect.GetMask();
   if (display) image(img,0,0);
   float maxB = 0;
   for (int i = 0; i < img.pixels.length; i+=n) {
+    if (display) rect(i%width, floor(i/width),4,4);
+    if (alpha(mask.pixels[i]) == 0) continue;
     float b = brightness(img.pixels[i]);
     if (b > maxB) maxB = b;
   }

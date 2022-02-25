@@ -1,16 +1,14 @@
 import kinect4WinSDK.Kinect;
+import kinect4WinSDK.SkeletonData;
 import deadpixel.keystone.*;
 
+int rectWidth;
+int rectHeight;
 int start = 30;
 float end = 100;
 int iteration = 10;
-int dispWidth = 1920;
-int dispHeight = 1080;
-int rectWidth = dispWidth / 8;
-int rectHeight = ceil(1.618 * rectWidth); // golden ratio
 int depthMax = 90;
 int depthMin = 60;
-int numScreen = 1;
 
 Kinect kinect;
 Keystone ks;
@@ -33,11 +31,11 @@ PGraphics screen8;
 
 void setup(){
   background(0);
-  size(1920,1080,P3D);
+  fullScreen(P3D);
   colorMode(HSB,360,100,100);
-  fill(0,start,100);
-  rect(0,0,800,800);
-   
+  rectWidth = width / 8;
+  rectHeight = ceil(1.618 * rectWidth); // golden ratio
+  
   background(0);
   kinect = new Kinect(this);
   ks = new Keystone(this);
@@ -65,20 +63,20 @@ void setup(){
 
 
 void draw(){
-  float halfWidth = width/2;
-  float halfHeight = height/2;
+  //float halfWidth = width/2;
+  //float halfHeight = height/2;
   float maxDepth = getMaximumDepth(20, true);
-  end = map(maxDepth,depthMin,depthMax,start,100);
-  if (maxDepth == 0){end = 100;} // in case too close
-  for (int i=0; i<iteration; i++){
-    float s = map(i, 0, iteration, start, end);
-    float w = map(i, 0, iteration, width, rectWidth);
-    float h = map(i, 0, iteration, height, rectHeight);    
-    drawRect(90, 90, 25, 0.7);
-  }
-  
-  background(0);
-  render_surfaces();
+  //end = map(maxDepth,depthMin,depthMax,start,100);
+  //if (maxDepth == 0){end = 100;} // in case too close
+  //for (int i=0; i<iteration; i++){
+  //  float s = map(i, 0, iteration, start, end);
+  //  float w = map(i, 0, iteration, width, rectWidth);
+  //  float h = map(i, 0, iteration, height, rectHeight);    
+  //  drawRect(90, 90, 25, 0.7);
+  //}
+  //drawRect(90, 90, 25, getMaximumDepth(20, true));
+  //background(0);
+  //render_surfaces();
 }
 
 /*
@@ -165,10 +163,10 @@ void drawRect(float rdark, float rbright, float cdif, float cratio){
 }
 
 /*
-move all surfaces to line up
+move all surfaces to line up in the middle
 */
 void move_surfaces() {
-  int centAlign = (dispHeight - rectHeight)/2;
+  int centAlign = (height - rectHeight)/2;
   surface1.moveTo(0,centAlign);
   surface2.moveTo(rectWidth,centAlign);
   surface3.moveTo(2*rectWidth,centAlign);
@@ -211,6 +209,7 @@ float getMaximumDepth(int n, Boolean display) {
     float b = brightness(img.pixels[i]);
     if (b > maxB) maxB = b;
   }
+  println(maxB);
   return maxB;
 }
 
@@ -236,4 +235,19 @@ void keyPressed() {
     ks.save();
     break;
   }
+}
+
+/*
+functions to dodge warning from kinect4WinSDK
+*/
+void appearEvent(SkeletonData _s) {
+  return;
+}
+
+void disappearEvent(SkeletonData _s) {
+  return;
+}
+
+void moveEvent(SkeletonData _b, SkeletonData _a) {
+  return;
 }

@@ -19,7 +19,7 @@ int depthSkip = 700;
 Boolean show_kinect = true;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
-float dspan = 20;
+float dhigh = 100;
 // SPEED FOR COLOR CYCLING
 float speed = 0.25;
 
@@ -83,13 +83,7 @@ void setup() {
 
 void draw() {
   float dd = getMaximumDepth();
-  float kratio;
-  if (dd < dlow) {
-    kratio = 0;
-  } else {
-    kratio = (dd - dlow)/dspan; // TODO adjust calibration
-  }
-  float cratio = (maxcratio-mincratio)*kratio + mincratio;
+  float cratio = map(dd, dlow, dhigh, mincratio, maxcratio);
   drawPanels(70, 100, 3, cratio); // TODO adjust color
   background(0);
   render_surfaces();

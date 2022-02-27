@@ -19,7 +19,7 @@ int depthSkip = 700;
 Boolean show_kinect = true;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
-float dspan = 20;
+float dhigh = 90;
 // SPEED FOR COLOR CYCLING
 float speed = 0.25;
 
@@ -83,13 +83,7 @@ void setup() {
 
 void draw() {
   float dd = getMaximumDepth();
-  float kratio;
-  if (dd < dlow) {
-    kratio = 0;
-  } else {
-    kratio = (dd - dlow)/dspan; // TODO adjust calibration
-  }
-  float cratio = (maxcratio-mincratio)*kratio + mincratio;
+  float cratio = map(dd, dlow, dhigh, mincratio, maxcratio);
   drawPanels(70, 100, 3, cratio, 90, 90); // TODO adjust color
   background(0);
   render_surfaces();
@@ -99,15 +93,15 @@ void draw() {
 drawPanels - 
  draws panels to screen
  INPUTS:
- rdark - "darkness" of outer rectangle
- rbright - "brightness" of outer rectangle
- cdif - difference of brightness bewteen inner cell and outer rect
- cratio - ratio of size between inner cell and outer rect
- sildark - darkness of silhouette
+   rbrightness - "brightness" of outer rectangle
+   rsaturation - "saturationness" of outer rectangle
+   cdif - difference of saturationness bewteen inner cell and outer rect
+   cratio - ratio of size between inner cell and outer rect
+   silbrightness - brightness of silhouette
  */
-void drawPanels(float rdark, float rbright, float cdif, float cratio, float sildark, float silbright) {
-  float cdark = rdark - cdif;
-  float cbright = rbright;
+void drawPanels(float rbrightness, float rsaturation, float cdif, float cratio, float silbrightness, float silsaturation) {
+  float cbrightness = rbrightness - cdif;
+  float csaturation = rsaturation;
   int cwidth = ceil(panelWidth * cratio);
   int cheight = ceil(panelHeight * cratio);
   int cx = ceil((panelWidth - cwidth) / 2);
@@ -119,84 +113,101 @@ void drawPanels(float rdark, float rbright, float cdif, float cratio, float sild
   sil.resize(panelWidth, ceil(0.75 * panelWidth));
   
   screen1.beginDraw();
-  screen1.fill(color(colorCycleL, rbright, rdark)); // -- TODO ADJUST PANEL COLORS/OPACITY--
+  screen1.fill(color(colorCycleL, rsaturation, rbrightness)); // -- TODO ADJUST PANEL COLORS/OPACITY--
   screen1.noStroke();
   screen1.rect(0, 0, panelWidth, panelHeight);
-  screen1.fill(color(colorCycleL, cbright, cdark));
+  screen1.fill(color(colorCycleL, csaturation, cbrightness));
   screen1.rect(cx, cy, cwidth, cheight);
-  screen1.tint(color(colorCycleL, silbright, sildark));
+  screen1.tint(color(colorCycleL, silsaturation, silbrightness));
   screen1.image(sil, 0, panelHeight-sil.height);
   screen1.endDraw();
 
   screen2.beginDraw();
-  screen2.fill(color(colorCycleR, rbright, rdark));
+  screen2.fill(color(colorCycleR, rsaturation, rbrightness));
   screen2.noStroke();
   screen2.rect(0, 0, panelWidth, panelHeight);
-  screen2.fill(color(colorCycleR, cbright, cdark));
+  screen2.fill(color(colorCycleR, csaturation, cbrightness));
   screen2.rect(cx, cy, cwidth, cheight);
-  screen2.tint(color(colorCycleL, silbright, sildark));
+  screen2.tint(color(colorCycleL, silsaturation, silbrightness));
   screen2.image(sil, 0, panelHeight-sil.height);
   screen2.endDraw();
 
   screen3.beginDraw();
-  screen3.fill(color(colorCycleL, rbright, rdark));
+  screen3.fill(color(colorCycleL, rsaturation, rbrightness));
   screen3.noStroke();
   screen3.rect(0, 0, panelWidth, panelHeight);
-  screen3.fill(color(colorCycleL, cbright, cdark));
+  screen3.fill(color(colorCycleL, csaturation, cbrightness));
   screen3.rect(cx, cy, cwidth, cheight);
-  screen3.tint(color(colorCycleL, silbright, sildark));
+  screen3.tint(color(colorCycleL, silsaturation, silbrightness));
   screen3.image(sil, 0, panelHeight-sil.height);
   screen3.endDraw();
 
   screen4.beginDraw();
-  screen4.fill(color(colorCycleR, rbright, rdark));
+  screen4.fill(color(colorCycleR, rsaturation, rbrightness));
   screen4.noStroke();
   screen4.rect(0, 0, panelWidth, panelHeight);
-  screen4.fill(color(colorCycleR, cbright, cdark));
+  screen4.fill(color(colorCycleR, csaturation, cbrightness));
   screen4.rect(cx, cy, cwidth, cheight);
-  screen4.tint(color(colorCycleL, silbright, sildark));
+  screen4.tint(color(colorCycleL, silsaturation, silbrightness));
   screen4.image(sil, 0, panelHeight-sil.height);
   screen4.endDraw();
 
   screen5.beginDraw();
-  screen5.fill(color(colorCycleL, rbright, rdark));
+  screen5.fill(color(colorCycleL, rsaturation, rbrightness));
   screen5.noStroke();
   screen5.rect(0, 0, panelWidth, panelHeight);
-  screen5.fill(color(colorCycleL, cbright, cdark));
+  screen5.fill(color(colorCycleL, csaturation, cbrightness));
   screen5.rect(cx, cy, cwidth, cheight);
-  screen5.tint(color(colorCycleL, silbright, sildark));
+  screen5.tint(color(colorCycleL, silsaturation, silbrightness));
   screen5.image(sil, 0, panelHeight-sil.height);
   screen5.endDraw();
 
   screen6.beginDraw();
-  screen6.fill(color(colorCycleR, rbright, rdark));
+  screen6.fill(color(colorCycleR, rsaturation, rbrightness));
   screen6.noStroke();
   screen6.rect(0, 0, panelWidth, panelHeight);
-  screen6.fill(color(colorCycleR, cbright, cdark));
+  screen6.fill(color(colorCycleR, csaturation, cbrightness));
   screen6.rect(cx, cy, cwidth, cheight);
-  screen6.tint(color(colorCycleL, silbright, sildark));
+  screen6.tint(color(colorCycleL, silsaturation, silbrightness));
   screen6.image(sil, 0, panelHeight-sil.height);
   screen6.endDraw();
 
   screen7.beginDraw();
-  screen7.fill(color(colorCycleL, rbright, rdark));
+  screen7.fill(color(colorCycleL, rsaturation, rbrightness));
   screen7.noStroke();
   screen7.rect(0, 0, panelWidth, panelHeight);
-  screen7.fill(color(colorCycleL, cbright, cdark));
+  screen7.fill(color(colorCycleL, csaturation, cbrightness));
   screen7.rect(cx, cy, cwidth, cheight);
-  screen7.tint(color(colorCycleL, silbright, sildark));
+  screen7.tint(color(colorCycleL, silsaturation, silbrightness));
   screen7.image(sil, 0, panelHeight-sil.height);
   screen7.endDraw();
 
   screen8.beginDraw();
-  screen8.fill(color(colorCycleR, rbright, rdark));
+  screen8.fill(color(colorCycleR, rsaturation, rbrightness));
   screen8.noStroke();
   screen8.rect(0, 0, panelWidth, panelHeight);
-  screen8.fill(color(colorCycleR, cbright, cdark));
+  screen8.fill(color(colorCycleR, csaturation, cbrightness));
   screen8.rect(cx, cy, cwidth, cheight);
-  screen8.tint(color(colorCycleL, silbright, sildark));
+  screen8.tint(color(colorCycleL, silsaturation, silbrightness));
   screen8.image(sil, 0, panelHeight-sil.height);
   screen8.endDraw();
+}
+
+/*
+drawGradient -
+  draws rectangle gradient
+  INPUTS:
+    x, y - position
+    
+  */
+void drawGradient(float x, float y) {
+  int radius = dim/2;
+  float h = 0;
+  for (int r = radius; r > 0; --r) {
+    fill(0, h, 90);
+    ellipse(x, y, r, r);
+    h += 1;
+  }
 }
 
 /*

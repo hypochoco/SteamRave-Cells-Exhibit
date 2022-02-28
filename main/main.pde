@@ -16,33 +16,17 @@ float maxcratio = 0.7;
 float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
-Boolean show_kinect = true;
+Boolean show_kinect = false;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
-float dspan = 20;
+float dhigh = 90;
 // SPEED FOR COLOR CYCLING
-float speed = 0.25;
+float speed = 1;
 int panelNum = 8;
 
 //Kinect kinect;
 Keystone ks;
-CornerPinSurface surface1;
-CornerPinSurface surface2;
-CornerPinSurface surface3;
-CornerPinSurface surface4;
-CornerPinSurface surface5;
-CornerPinSurface surface6;
-CornerPinSurface surface7;
-CornerPinSurface surface8;
 CornerPinSurface kinectSurface;
-PGraphics screen1;
-PGraphics screen2;
-PGraphics screen3;
-PGraphics screen4;
-PGraphics screen5;
-PGraphics screen6;
-PGraphics screen7;
-PGraphics screen8;
 PGraphics kinectScreen;
 ArrayList<PGraphics> screens;
 ArrayList<CornerPinSurface> surfaces;
@@ -52,15 +36,12 @@ void setup() {
   fullScreen(P3D);
   colorMode(HSB, 360, 100, 100);
   rectWidth = width / 8;
-  rectHeight = ceil(1.618 * rectWidth); // golden ratio
-
-  background(0);
+  rectHeight = ceil(1.618 * rectWidth);
+  
   //kinect = new Kinect(this);
   ks = new Keystone(this);
-  
   screens = new ArrayList<PGraphics>();
   surfaces = new ArrayList<CornerPinSurface>();
-  
   for (int i=0; i<panelNum; i++){
     screens.add(createGraphics(rectWidth, rectHeight, P3D));
     surfaces.add(ks.createCornerPinSurface(rectWidth, rectHeight, 20));
@@ -74,7 +55,7 @@ void setup() {
 void draw() {
   //float dd = getMaximumDepth();
   float cratio = 0.5;
-  drawPanels(70, 100, 3, cratio); // TODO adjust color
+  drawPanels(65, 45, 65, 45, cratio, 5);
   background(0);
   render_surfaces();
 }
@@ -87,50 +68,35 @@ drawPanels -
  cdif - difference of brightness bewteen inner cell and outer rect
  cratio - ratio of size between inner cell and outer rect
  */
-void drawPanels(float rBrightness, float rSaturation, float cdif, float cratio) {
-  float cdark = rBrightness - cdif;
-  float cbright = rSaturation;
+void drawPanels(float rSaturation, float rBrightness, float cSaturation, float cBrightness, float cratio, float cdif) {
   float cwidth = ceil(rectWidth * cratio);
   float cheight = ceil(rectHeight * cratio);
   float cx = ceil((rectWidth - cwidth) / 2);
   float cy = ceil((rectHeight - cheight) /2);
   int colorCycleL = ceil(speed*frameCount)%360;
   int colorCycleR = 360 - colorCycleL;
-
   int c;
   for (int i=0; i<panelNum; i++){
-    
     if (i%2==0){c = colorCycleL;}
     else {c = colorCycleR;}
-    
-    //screens.get(i).beginDraw();
-    //screens.get(i).fill(color(c, rSaturation, rBrightness)); // -- TODO ADJUST PANEL COLORS/OPACITY--
-    //screens.get(i).noStroke();
-    //screens.get(i).rect(0, 0, rectWidth, rectHeight);
-    //screens.get(i).fill(color(c, cbright, cdark));
-    //screens.get(i).rect(cx, cy, cwidth, cheight);
-    //screens.get(i).endDraw();
-    drawRect(screens.get(i),rectWidth, rectHeight, color(c, cbright, cdark));
+    screens.get(i).beginDraw();
+    screens.get(i).noStroke();
+    screens.get(i).fill(color(c, rSaturation, rBrightness));
+    screens.get(i).rect(0, 0, rectWidth, rectHeight);
+    screens.get(i).fill(color(c + cdif, cSaturation, cBrightness));
+    screens.get(i).rect(cx, cy, cwidth, cheight);
+    screens.get(i).endDraw();
+    //drawRect(screens.get(i),rectWidth, rectHeight, color(c, cSaturation, cBrightness), 5);
   }
 }
 
-int iteration = 5;
-float w; 
-float h;
-
-void drawRect(PGraphics screen, float rectWidth, float rectHeight, color c){
-  //color c = color(hue);
-  
-  w = rectWidth;
-  h = rectHeight;
-  
-  
-  
+// -- TODO: IMPLEMENT GRADIENT -- //
+void drawRect(PGraphics screen, float rectWidth, float rectHeight, color c, int iteration) {
   screen.beginDraw();
   for (int i=0; i<iteration; i++){
-  screen.fill(c);
-  //screen.noStroke();
-  screen.rect(i, i, rectWidth, rectHeight);
+    screen.fill(c);
+    screen.noStroke();
+    screen.rect(i, i, rectWidth, rectHeight);
   }
   screen.endDraw();
 }

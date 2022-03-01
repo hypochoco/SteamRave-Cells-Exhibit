@@ -55,7 +55,7 @@ void setup() {
 void draw() {
   //float dd = getMaximumDepth();
   float cratio = 0.5;
-  drawPanels(100, 100, 100, 100, cratio, 0.5, 20);
+  drawPanels(100, 100, 100, 100, cratio, 0, 20);
   background(0);
   render_surfaces();
 }
@@ -94,7 +94,7 @@ void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float min
     float nheight = rectHeight * ratio;
     float nx = (rectWidth - nwidth) / 2;
     float ny = (rectHeight - nheight) /2;
-    float nhue = map(i, 0, iteration, hue0, hue);
+    float nhue = map(i, 0, iteration, hue0, hue) % 360;
     float nsaturation = map(i, 0, iteration, saturation0, saturation);
     float nbrightness = map(i, 0, iteration, brightness0, brightness);
     int c = color(nhue, nsaturation, nbrightness);

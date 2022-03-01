@@ -84,7 +84,8 @@ void drawPanels(float rSaturation, float rBrightness, float cSaturation, float c
     screens.get(i).fill(color(c, rSaturation, rBrightness));
     screens.get(i).rect(0, 0, rectWidth, rectHeight);
     screens.get(i).endDraw();
-    drawGradient(screens.get(i), rectWidth, rectHeight, 0.4, 0.6, c + cdif, c, cSaturation, cSaturation, cBrightness, cBrightness, 100);
+    drawGradient(screens.get(i), rectWidth, rectHeight, 0, 1, c + cdif, c, 
+    cSaturation, cSaturation, cBrightness, cBrightness, 100);
   }
 }
 

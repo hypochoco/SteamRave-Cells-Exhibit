@@ -3,7 +3,7 @@ float speed = 1;
 void setup() {
   background(0);
   fullScreen(P3D);
-  
+  colorMode(HSB, 360, 100, 100);
 }
 
 void draw() {

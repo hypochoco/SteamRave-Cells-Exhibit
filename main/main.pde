@@ -55,7 +55,7 @@ void setup() {
 void draw() {
   //float dd = getMaximumDepth();
   float cratio = 0.5;
-  drawPanels(100, 100, 100, 100, cratio, 20);
+  drawPanels(100, 100, 100, 100, cratio, 0.1, 20);
   background(0);
   render_surfaces();
 }
@@ -68,11 +68,7 @@ drawPanels -
  cdif - difference of brightness bewteen inner cell and outer rect
  cratio - ratio of size between inner cell and outer rect
  */
-void drawPanels(float rSaturation, float rBrightness, float cSaturation, float cBrightness, float cratio, float cdif) {
-  float cwidth = rectWidth * cratio;
-  float cheight = rectHeight * cratio;
-  float cx = (rectWidth - cwidth) / 2;
-  float cy = (rectHeight - cheight) /2;
+void drawPanels(float rSaturation, float rBrightness, float cSaturation, float cBrightness, float cratio, float feather, float cdif) {
   int colorCycleL = ceil(speed*frameCount)%360;
   int colorCycleR = 360 - colorCycleL;
   int c;
@@ -84,8 +80,12 @@ void drawPanels(float rSaturation, float rBrightness, float cSaturation, float c
     screens.get(i).fill(color(c, rSaturation, rBrightness));
     screens.get(i).rect(0, 0, rectWidth, rectHeight);
     screens.get(i).endDraw();
+<<<<<<< Updated upstream
     drawGradient(screens.get(i), rectWidth, rectHeight, 0, 1, c + cdif, c, 
     cSaturation, cSaturation, cBrightness, cBrightness, 100);
+=======
+    drawGradient(screens.get(i), rectWidth, rectHeight, cratio-feather, cratio+feather, c+cdif, c, cSaturation, cSaturation, cBrightness, cBrightness, 100);
+>>>>>>> Stashed changes
   }
 }
 

@@ -4,13 +4,7 @@ CHANGES SIZE OF INNER CELL BASED ON DEPTH
 
 */
 
-//import kinect4WinSDK.Kinect;
-//import kinect4WinSDK.SkeletonData;
-import deadpixel.keystone.*;
-
-// DIMENSIONS FOR EACH PANEL
-int rectWidth;
-int rectHeight;
+/* --- INPUT PARAMS --- */
 // DIMENSION BOUNDS FOR CELL
 float maxcratio = 0.7;
 float mincratio = 0.3;
@@ -23,6 +17,15 @@ float dhigh = 90;
 // SPEED FOR COLOR CYCLING
 float speed = 1;
 int panelNum = 8;
+/* --------------------- */
+
+//import kinect4WinSDK.Kinect;
+//import kinect4WinSDK.SkeletonData;
+import deadpixel.keystone.*;
+
+// DIMENSIONS FOR EACH PANEL
+int rectWidth;
+int rectHeight;
 
 //Kinect kinect;
 Keystone ks;
@@ -54,8 +57,19 @@ void setup() {
 
 void draw() {
   //float dd = getMaximumDepth();
-  float cratio = 0.5;
-  drawPanels(100, 100, 100, 100, cratio, 0, 20);
+  
+  /* --- PARAMETERS --- */
+  float panelSaturation = 70;
+  float panelBrightness = 40;
+  float cellSaturation = 70;
+  float cellBrightness = 40;
+  float cellRatio = 0.5;             // size of cell compared to panel  
+  float cellHardness = 0.5;          // width of the "blur"
+  float cellColorDifference = 20;    // how ahead the cell hue will be
+  /* ------------------ */
+  
+  drawPanels(panelSaturation, panelBrightness, cellSaturation, cellBrightness,
+    cellRatio, cellHardness, cellColorDifference);
   background(0);
   render_surfaces();
 }

@@ -16,7 +16,7 @@ float maxcratio = 0.7;
 float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
-Boolean show_kinect = true;
+Boolean show_kinect = false;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
 float dhigh = 90;
@@ -191,23 +191,6 @@ void drawPanels(float rbrightness, float rsaturation, float cdif, float cratio, 
   screen8.tint(color(colorCycleL, silsaturation, silbrightness));
   screen8.image(sil, 0, panelHeight-sil.height);
   screen8.endDraw();
-}
-
-/*
-drawGradient -
-  draws rectangle gradient
-  INPUTS:
-    x, y - position
-    
-  */
-void drawGradient(float x, float y) {
-  int radius = dim/2;
-  float h = 0;
-  for (int r = radius; r > 0; --r) {
-    fill(0, h, 90);
-    ellipse(x, y, r, r);
-    h += 1;
-  }
 }
 
 /*

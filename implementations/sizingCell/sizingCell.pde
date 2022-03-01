@@ -16,12 +16,12 @@ float maxcratio = 0.7;
 float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
-Boolean show_kinect = true;
+Boolean show_kinect = false;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
 float dhigh = 100;
 // SPEED FOR COLOR CYCLING
-float speed = 0.25;
+float speed = 0.03;
 
 Kinect kinect;
 Keystone ks;
@@ -43,6 +43,7 @@ PGraphics screen6;
 PGraphics screen7;
 PGraphics screen8;
 PGraphics kinectScreen;
+
 
 void setup() {
   background(0);
@@ -82,9 +83,9 @@ void setup() {
 
 
 void draw() {
-  float dd = getMaximumDepth();
-  float cratio = map(dd, dlow, dhigh, mincratio, maxcratio);
-  drawPanels(70, 100, 3, cratio); // TODO adjust color
+  // float dd = getMaximumDepth();
+  // float cratio = map(dd, dlow, dhigh, mincratio, maxcratio);
+  drawPanels(60, 45, 65, 45, 0.5, 5); // TODO adjust color
   background(0);
   render_surfaces();
 }
@@ -92,14 +93,12 @@ void draw() {
 /*
 drawPanels - 
  draws panels to screen
- rdark - "darkness" of outer rectangle
- rbright - "brightness" of outer rectangle
+ rbrightness - "darkness" of outer rectangle
+ rsaturation - "brightness" of outer rectangle
  cdif - difference of brightness bewteen inner cell and outer rect
  cratio - ratio of size between inner cell and outer rect
  */
-void drawPanels(float rdark, float rbright, float cdif, float cratio) {
-  float cdark = rdark - cdif;
-  float cbright = rbright;
+void drawPanels(float rsaturation, float rbrightness, float csaturation, float cbrightness, float cratio, float cdif) {
   float cwidth = ceil(rectWidth * cratio);
   float cheight = ceil(rectHeight * cratio);
   float cx = ceil((rectWidth - cwidth) / 2);
@@ -108,69 +107,71 @@ void drawPanels(float rdark, float rbright, float cdif, float cratio) {
   int colorCycleR = 360 - colorCycleL;
 
   screen1.beginDraw();
-  screen1.fill(color(colorCycleL, rbright, rdark)); // -- TODO ADJUST PANEL COLORS/OPACITY--
+  screen1.fill(color(colorCycleL, rsaturation, rbrightness)); // -- TODO ADJUST PANEL COLORS/OPACITY--
   screen1.noStroke();
   screen1.rect(0, 0, rectWidth, rectHeight);
-  screen1.fill(color(colorCycleL, cbright, cdark));
+  screen1.fill(color((colorCycleL + cdif)%360, csaturation, cbrightness));
   screen1.rect(cx, cy, cwidth, cheight);
   screen1.endDraw();
 
   screen2.beginDraw();
-  screen2.fill(color(colorCycleR, rbright, rdark));
+  screen2.fill(color(colorCycleR, rsaturation, rbrightness));
   screen2.noStroke();
   screen2.rect(0, 0, rectWidth, rectHeight);
-  screen2.fill(color(colorCycleR, cbright, cdark));
+  screen2.fill(color((colorCycleR+ cdif)%360, csaturation, cbrightness));
   screen2.rect(cx, cy, cwidth, cheight);
   screen2.endDraw();
 
   screen3.beginDraw();
-  screen3.fill(color(colorCycleL, rbright, rdark));
+  screen3.fill(color(colorCycleL, rsaturation, rbrightness));
   screen3.noStroke();
   screen3.rect(0, 0, rectWidth, rectHeight);
-  screen3.fill(color(colorCycleL, cbright, cdark));
+  screen3.fill(color((colorCycleL+ cdif)%360, csaturation, cbrightness));
   screen3.rect(cx, cy, cwidth, cheight);
   screen3.endDraw();
 
   screen4.beginDraw();
-  screen4.fill(color(colorCycleR, rbright, rdark));
+  screen4.fill(color(colorCycleR, rsaturation, rbrightness));
   screen4.noStroke();
   screen4.rect(0, 0, rectWidth, rectHeight);
-  screen4.fill(color(colorCycleR, cbright, cdark));
+  screen4.fill(color((colorCycleR+ cdif)%360, csaturation, cbrightness));
   screen4.rect(cx, cy, cwidth, cheight);
   screen4.endDraw();
 
   screen5.beginDraw();
-  screen5.fill(color(colorCycleL, rbright, rdark));
+  screen5.fill(color(colorCycleL, rsaturation, rbrightness));
   screen5.noStroke();
   screen5.rect(0, 0, rectWidth, rectHeight);
-  screen5.fill(color(colorCycleL, cbright, cdark));
+  screen5.fill(color((colorCycleL+ cdif)%360, csaturation, cbrightness));
   screen5.rect(cx, cy, cwidth, cheight);
   screen5.endDraw();
 
   screen6.beginDraw();
-  screen6.fill(color(colorCycleR, rbright, rdark));
+  screen6.fill(color(colorCycleR, rsaturation, rbrightness));
   screen6.noStroke();
   screen6.rect(0, 0, rectWidth, rectHeight);
-  screen6.fill(color(colorCycleR, cbright, cdark));
+  screen6.fill(color((colorCycleR+ cdif)%360, csaturation, cbrightness));
   screen6.rect(cx, cy, cwidth, cheight);
   screen6.endDraw();
 
   screen7.beginDraw();
-  screen7.fill(color(colorCycleL, rbright, rdark));
+  screen7.fill(color((colorCycleL+cdif)%360, rsaturation, rbrightness));
   screen7.noStroke();
   screen7.rect(0, 0, rectWidth, rectHeight);
-  screen7.fill(color(colorCycleL, cbright, cdark));
+  screen7.fill(color((colorCycleL+ cdif)%360, csaturation, cbrightness));
   screen7.rect(cx, cy, cwidth, cheight);
   screen7.endDraw();
 
   screen8.beginDraw();
-  screen8.fill(color(colorCycleR, rbright, rdark));
+  screen8.fill(color(colorCycleR, rsaturation, rbrightness));
   screen8.noStroke();
   screen8.rect(0, 0, rectWidth, rectHeight);
-  screen8.fill(color(colorCycleR, cbright, cdark));
+  screen8.fill(color((colorCycleR+ cdif)%360, csaturation, cbrightness));
   screen8.rect(cx, cy, cwidth, cheight);
   screen8.endDraw();
 }
+
+
 
 /*
 getMaximumDepth -

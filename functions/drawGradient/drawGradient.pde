@@ -19,9 +19,9 @@ void setup() {
 }
 
 void draw() {
-  float x = map(mouseX, 0, width, 0, 100);
+  float x = map(mouseX, 0, width, 0, 360);
   float y = map(mouseY, 0, height, 0, 100);
-  drawRect(screen, rectWidth, rectHeight, 0.7, 1, 0, 50, x, x, 100, 100, 100);
+  drawRect(screen, rectWidth, rectHeight, 0.7, 1, x, (x+50)%360, 40, 40, 70, 70, 100);
   surface.render(screen);
 }
 
@@ -39,7 +39,7 @@ void drawRect(PGraphics screen, float rectWidth, float rectHeight, float minrati
     float nbrightness = map(i, 0, iteration, brightness0, brightness);
     int c = color(nhue, nsaturation, nbrightness);
     screen.fill(c);
-    screen.rect(nx, ny, nwidth, nheight);
+    screen.rect(nx, ny, nwidth, nheight, 100);
   }
   screen.endDraw();
 }

@@ -55,7 +55,7 @@ void setup() {
 void draw() {
   //float dd = getMaximumDepth();
   float cratio = 0.5;
-  drawPanels(65, 45, 65, 45, cratio, 5);
+  drawPanels(100, 100, 100, 100, cratio, 20);
   background(0);
   render_surfaces();
 }
@@ -69,10 +69,10 @@ drawPanels -
  cratio - ratio of size between inner cell and outer rect
  */
 void drawPanels(float rSaturation, float rBrightness, float cSaturation, float cBrightness, float cratio, float cdif) {
-  float cwidth = ceil(rectWidth * cratio);
-  float cheight = ceil(rectHeight * cratio);
-  float cx = ceil((rectWidth - cwidth) / 2);
-  float cy = ceil((rectHeight - cheight) /2);
+  float cwidth = rectWidth * cratio;
+  float cheight = rectHeight * cratio;
+  float cx = (rectWidth - cwidth) / 2;
+  float cy = (rectHeight - cheight) /2;
   int colorCycleL = ceil(speed*frameCount)%360;
   int colorCycleR = 360 - colorCycleL;
   int c;
@@ -83,20 +83,26 @@ void drawPanels(float rSaturation, float rBrightness, float cSaturation, float c
     screens.get(i).noStroke();
     screens.get(i).fill(color(c, rSaturation, rBrightness));
     screens.get(i).rect(0, 0, rectWidth, rectHeight);
-    screens.get(i).fill(color(c + cdif, cSaturation, cBrightness));
-    screens.get(i).rect(cx, cy, cwidth, cheight);
     screens.get(i).endDraw();
-    //drawRect(screens.get(i),rectWidth, rectHeight, color(c, cSaturation, cBrightness), 5);
+    drawGradient(screens.get(i), rectWidth, rectHeight, 0.4, 0.6, c + cdif, c, cSaturation, cSaturation, cBrightness, cBrightness, 100);
   }
 }
 
-// -- TODO: IMPLEMENT GRADIENT -- //
-void drawRect(PGraphics screen, float rectWidth, float rectHeight, color c, int iteration) {
+void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float minratio, float maxratio, float hue0, float hue, float saturation0, float saturation, float brightness0, float brightness, int iteration) {
   screen.beginDraw();
-  for (int i=0; i<iteration; i++){
+  screen.noStroke();
+  for (int i=iteration; i>0; i--){
+    float ratio = map(i, 0, iteration, minratio, maxratio);
+    float nwidth = rectWidth * ratio;
+    float nheight = rectHeight * ratio;
+    float nx = (rectWidth - nwidth) / 2;
+    float ny = (rectHeight - nheight) /2;
+    float nhue = map(i, 0, iteration, hue0, hue);
+    float nsaturation = map(i, 0, iteration, saturation0, saturation);
+    float nbrightness = map(i, 0, iteration, brightness0, brightness);
+    int c = color(nhue, nsaturation, nbrightness);
     screen.fill(c);
-    screen.noStroke();
-    screen.rect(i, i, rectWidth, rectHeight);
+    screen.rect(nx, ny, nwidth, nheight, 100);
   }
   screen.endDraw();
 }
@@ -163,18 +169,12 @@ keyPressed -
 void keyPressed() {
   switch(key) {
   case 'c':
-    // enter/leave calibration mode, where surfaces can be warped 
-    // and moved
     ks.toggleCalibration();
     break;
-
   case 'l':
-    // loads the saved layout
     ks.load();
     break;
-
   case 's':
-    // saves the layout
     ks.save();
     break;
   }

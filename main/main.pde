@@ -59,13 +59,13 @@ void draw() {
   //float dd = getMaximumDepth();
   
   /* --- PARAMETERS --- */
-  float panelSaturation = 70;
-  float panelBrightness = 40;
-  float cellSaturation = 70;
-  float cellBrightness = 40;
+  float panelSaturation = 100;
+  float panelBrightness = 100;
+  float cellSaturation = 100;
+  float cellBrightness = 100;
   float cellRatio = 0.5;             // size of cell compared to panel  
   float cellHardness = 0.5;          // width of the "blur"
-  float cellColorDifference = 20;    // how ahead the cell hue will be
+  float cellColorDifference = -50;    // how ahead the cell hue will be
   /* ------------------ */
   
   drawPanels(panelSaturation, panelBrightness, cellSaturation, cellBrightness,
@@ -108,7 +108,7 @@ void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float min
     float nheight = rectHeight * ratio;
     float nx = (rectWidth - nwidth) / 2;
     float ny = (rectHeight - nheight) /2;
-    float nhue = map(i, 0, iteration, hue0, hue) % 360;
+    float nhue = (360 + map(i, 0, iteration, hue0, hue)) % 360;         // + 360 to account for negative cdif
     float nsaturation = map(i, 0, iteration, saturation0, saturation);
     float nbrightness = map(i, 0, iteration, brightness0, brightness);
     int c = color(nhue, nsaturation, nbrightness);

@@ -10,7 +10,7 @@ float maxcratio = 0.7;
 float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
-Boolean show_kinect = false;
+Boolean show_kinect = true;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
 float dhigh = 90;
@@ -19,15 +19,15 @@ float speed = 1;
 int panelNum = 8;
 /* --------------------- */
 
-//import kinect4WinSDK.Kinect;
-//import kinect4WinSDK.SkeletonData;
+import kinect4WinSDK.Kinect;
+import kinect4WinSDK.SkeletonData;
 import deadpixel.keystone.*;
 
 // DIMENSIONS FOR EACH PANEL
 int rectWidth;
 int rectHeight;
 
-//Kinect kinect;
+Kinect kinect;
 Keystone ks;
 CornerPinSurface kinectSurface;
 PGraphics kinectScreen;
@@ -41,7 +41,7 @@ void setup() {
   rectWidth = width / 8;
   rectHeight = ceil(1.618 * rectWidth);
   
-  //kinect = new Kinect(this);
+  kinect = new Kinect(this);
   ks = new Keystone(this);
   screens = new ArrayList<PGraphics>();
   surfaces = new ArrayList<CornerPinSurface>();
@@ -49,6 +49,8 @@ void setup() {
     screens.add(createGraphics(rectWidth, rectHeight, P3D));
     surfaces.add(ks.createCornerPinSurface(rectWidth, rectHeight, 20));
   }
+  kinectScreen = createGraphics(640, 480, P3D);
+  kinectSurface = ks.createCornerPinSurface(640, 480, 20);
   
   center_surfaces();
 }
@@ -56,7 +58,8 @@ void setup() {
 
 
 void draw() {
-  //float dd = getMaximumDepth();
+  float dd = getMaximumDepth();
+  if (dd < dlow) dd = dlow;
   
   /* --- PARAMETERS --- */
   float panelSaturation = 100;
@@ -64,7 +67,7 @@ void draw() {
   float cellSaturation = 100;
   float cellBrightness = 100;
   float cellRatio = 0.5;             // size of cell compared to panel  
-  float cellHardness = 0.5;          // width of the "blur"
+  float cellHardness = map(dd, dlow, dhigh, 0.5, 0);          // width of the "blur"
   float cellColorDifference = -50;    // how ahead the cell hue will be
   /* ------------------ */
   
@@ -86,6 +89,7 @@ void drawPanels(float rSaturation, float rBrightness, float cSaturation, float c
   int colorCycleL = ceil(speed*frameCount)%360;
   int colorCycleR = 360 - colorCycleL;
   int c;
+  float roundness = map(feather, 0, 0.5, 0, 100);
   for (int i=0; i<panelNum; i++){
     if (i%2==0){c = colorCycleL;}
     else {c = colorCycleR;}
@@ -95,11 +99,11 @@ void drawPanels(float rSaturation, float rBrightness, float cSaturation, float c
     screens.get(i).rect(0, 0, rectWidth, rectHeight);
     screens.get(i).endDraw();
     drawGradient(screens.get(i), rectWidth, rectHeight, cratio-feather, cratio+feather, c+cdif, c, 
-    cSaturation, cSaturation, cBrightness, cBrightness, 100);
+    cSaturation, cSaturation, cBrightness, cBrightness, 100, roundness);
   }
 }
 
-void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float minratio, float maxratio, float hue0, float hue, float saturation0, float saturation, float brightness0, float brightness, int iteration) {
+void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float minratio, float maxratio, float hue0, float hue, float saturation0, float saturation, float brightness0, float brightness, int iteration, float roundness) {
   screen.beginDraw();
   screen.noStroke();
   for (int i=iteration; i>0; i--){
@@ -113,7 +117,7 @@ void drawGradient(PGraphics screen, float rectWidth, float rectHeight, float min
     float nbrightness = map(i, 0, iteration, brightness0, brightness);
     int c = color(nhue, nsaturation, nbrightness);
     screen.fill(c);
-    screen.rect(nx, ny, nwidth, nheight, 100);
+    screen.rect(nx, ny, nwidth, nheight, roundness);
   }
   screen.endDraw();
 }
@@ -128,31 +132,31 @@ getMaximumDepth -
  n - One in every n pixel will be compared
  display - selecting true displays the depth image from the kinect
  */
-//float getMaximumDepth() {
-//  PImage img = kinect.GetDepth();
-//  PImage mask = kinect.GetMask();
-//  float maxB = 0;
-//  for (int i = 0; i < img.pixels.length; i+=depthSkip) {
-//    if (alpha(mask.pixels[i]) == 0) continue;
-//    float b = brightness(img.pixels[i]);
-//    if (b > maxB) maxB = b;
-//  }
-//  return maxB;
-//}
+float getMaximumDepth() {
+  PImage img = kinect.GetDepth();
+  PImage mask = kinect.GetMask();
+  float maxB = 0;
+  for (int i = 0; i < img.pixels.length; i+=depthSkip) {
+    if (alpha(mask.pixels[i]) == 0) continue;
+    float b = brightness(img.pixels[i]);
+    if (b > maxB) maxB = b;
+  }
+  return maxB;
+}
 
 /*
 dispKinect -
 draws what kinect sees
  */
-//void dispKinect() {
-//  PImage img = kinect.GetDepth();
-//  kinectScreen.beginDraw();
-//  kinectScreen.image(img, 0, 0);
-//  for (int i = 0; i < img.pixels.length; i += depthSkip) {
-//    kinectScreen.rect(i % 640, i/640, 4, 4);
-//  }
-//  kinectScreen.endDraw();
-//}
+void dispKinect() {
+  PImage img = kinect.GetDepth();
+  kinectScreen.beginDraw();
+  kinectScreen.image(img, 0, 0);
+  for (int i = 0; i < img.pixels.length; i += depthSkip) {
+    kinectScreen.rect(i % 640, i/640, 4, 4);
+  }
+  kinectScreen.endDraw();
+}
 
 /*
 move all surfaces to line up in the middle
@@ -170,6 +174,10 @@ render all surfaces
 void render_surfaces() {
   for (int i=0; i<panelNum; i++){
     surfaces.get(i).render(screens.get(i));
+  }
+  if (show_kinect) {
+    dispKinect();
+    kinectSurface.render(kinectScreen);
   }
 }
 
@@ -191,17 +199,17 @@ void keyPressed() {
   }
 }
 
-///*
-//functions to dodge warning from kinect4WinSDK
-// */
-//void appearEvent(SkeletonData _s) {
-//  return;
-//}
+/*
+functions to dodge warning from kinect4WinSDK
+ */
+void appearEvent(SkeletonData _s) {
+  return;
+}
 
-//void disappearEvent(SkeletonData _s) {
-//  return;
-//}
+void disappearEvent(SkeletonData _s) {
+  return;
+}
 
-//void moveEvent(SkeletonData _b, SkeletonData _a) {
-//  return;
-//}
+void moveEvent(SkeletonData _b, SkeletonData _a) {
+  return;
+}

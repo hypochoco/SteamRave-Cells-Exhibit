@@ -10,12 +10,12 @@ float maxcratio = 0.7;
 float mincratio = 0.3;
 // SPACING FOR getDepth()
 int depthSkip = 700;
-Boolean show_kinect = true;
+Boolean show_kinect = false;
 // CALIBRATION FOR DEPTH
 float dlow = 70;
 float dhigh = 90;
 // SPEED FOR COLOR CYCLING
-float speed = 1;
+float speed = 0.2;
 int panelNum = 8;
 /* --------------------- */
 
@@ -49,8 +49,10 @@ void setup() {
     screens.add(createGraphics(rectWidth, rectHeight, P3D));
     surfaces.add(ks.createCornerPinSurface(rectWidth, rectHeight, 20));
   }
-  kinectScreen = createGraphics(640, 480, P3D);
-  kinectSurface = ks.createCornerPinSurface(640, 480, 20);
+  if (show_kinect) {
+    kinectScreen = createGraphics(640, 480, P3D);
+    kinectSurface = ks.createCornerPinSurface(640, 480, 20);
+  }
   
   center_surfaces();
 }
@@ -62,10 +64,10 @@ void draw() {
   if (dd < dlow) dd = dlow;
   
   /* --- PARAMETERS --- */
-  float panelSaturation = 100;
-  float panelBrightness = 100;
-  float cellSaturation = 100;
-  float cellBrightness = 100;
+  float panelSaturation = 70;
+  float panelBrightness = 40;
+  float cellSaturation = 70;
+  float cellBrightness = 40;
   float cellRatio = 0.5;             // size of cell compared to panel  
   float cellHardness = map(dd, dlow, dhigh, 0.5, 0);          // width of the "blur"
   float cellColorDifference = -50;    // how ahead the cell hue will be

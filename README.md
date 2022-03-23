@@ -2,53 +2,38 @@
 
 Projection art with the v1 Kinect Sensor (Xbox 1414)
 
-## Tasks
+## Overview
 
-Processing
+This repository contains the code for the Cells exhibit for 2022 SteamRave at Brown University and Rhode Island School of Design.
 
+We project solid colored rectangles onto a series of panels. The hue of each rectangle cycles as a funciton of time. A Kinect Sensor was used to measure the distance of the viewer from the exhibit.
 
-- adjust colors on panels
-- smoothness of depth sensing
-- adjust other effects - blur, focus, gradient, etc.
-- (**COMPLETED**) Adjust getMaxDepth() to only get the max depth of human figures (idea to use mask and compare pixels)
-- (**COMPLETED**) test kinect with the keystone implementation
-- (**COMPLETED**) change position of keystone surfaces
-
-Python (we ain't doing this no more)
-
-- find a library to be able to use Kinect sensore v1. (there exists pykinect2 for v2, not sure if it works for v1)
-- find a way to use keystone correction (we want to be able to transform the shape each panel to match the projection irl)
-- adjust resolution/ratio of graphic to match that of projector (1920 x 1080)
-
-## Goal
-
-We want to output a row of panels with changing colors. Something like the following
-
-![goal](https://user-images.githubusercontent.com/84194796/155063054-f6c4c3b6-186c-4a4c-b855-321a964139c3.png)
-
-The three rows are three different ideas that we have. The left side will rotate through colors from one end of the spectrum, and the right side will rotate colors fromt the other end of the spectrum. At some point in the middle, they will meet in the middle and match colors, and then continue the color changing cycle.
-
-We want to use the Kinect sensor to find the distance of the viewer. Then, we want to change the size of the inner panels based on how far the viewer (farther = smaller, closer = bigger). Later, we want to experiment changed focus based on the distance, possibly saturation/color (farther = blurrier, closer = clearer).
+- `main` changes the blur of the inner cell as a function of the distance. The closer the viewer is, the more in focus it will become. This was the implementation that was used for the exhibit.
+- In `implementations/sizingCell`, we varied the size of the inner cell based on the distance in `sizingCell`.
+- In `implementations/mappingSilhouette`, we projected each individuals silhouette onto each panel in addition to changing the size of the inner cell based on the distance.
+- `functions/` contains smaller, specific functions for testing and debugging.
+- `result/` contains images of the final result of the exhibit.
+- `references/` contains references image that were used in the brainstorming and design of the project.
 
 ## Exhibit
 
-The actual exhibit will project this image onto panels arranged in a jutting arrangement so that only one side of the panels will be viewable from the side. The Kinect sensor will measure how far the viewer is from the exhibit.
+The actual exhibit will project this image onto panels arranged in a jutting arrangement so that only one side of the panels will be viewable from the side.
 
-![6](https://user-images.githubusercontent.com/84194796/155063965-cc14f2b0-dc16-4969-b82b-4b62791669eb.jpg)
+![](result/IMG_0931.jpg)
 
-In the picture above, two projectors were used, but we will only use one projector. We can adjust the shape projection images to match the panels by using the Keystone library (see below).
+![](result/IMG_0903.JPG)
 
-## Notes
+![](result/IMG_0999.jpg)
 
-- Daniel and I are using Windows. So far (2/21) all of the files are for Windows. Mac uses a different library, see below.
-- For Mac, Daniel Shiffman has a good library with good documentation on his [website](https://shiffman.net/p5/kinect/)
 
 ## How to Run
 
-- Ensure you have the necessary drivers and libraries.
-- To run the program, you can just clone (or download the file) anywhere on your computer and double-click to run it. The processing application folder does not need to be in the same folder.
+Note: This project uses the **Kinect4WinSDK** library. This means that you will not be able to use the Kinect sensor using this code on Mac. You may still use everything else, but you will need to comment out the commands that use the **Kinect4WinSDK** library.
+
+- Ensure you have the necessary drivers and libraries. You will need to install the Kinect Software and Processing libraries (below).
+- To run the program, you can just clone (or download the file) anywhere on your computer and double-click to open it.
 - Run the sketch in Processing.
-- You can use the Keystone library to adjust the shape and number of panels. For example, in kinectKeyston, press 'c' to enter transformation mode.
+- To adjust each panel, press 'c' to enter/exit edit mode. Press 's' to save and 'l' to load layouts.
 
 ## Installing Kinect Software (Windows)
 
@@ -60,8 +45,6 @@ To use the Kinect sensor, install the following from Microsoft.
 
 ## Using Processing
 
-NOTE: Processing 4.0 beta 6 is sus! Windows detects security issues with it, so we are just sticking with 3.5.4 for now.
-
 [Install Processing 3.5.4](https://processing.org/download)
 
 Unzip the download into a folder you want to work in. In the folder, open the processing application.
@@ -71,12 +54,8 @@ Unzip the download into a folder you want to work in. In the folder, open the pr
 Open the processing application and go to the top where it says "Sketch". Next, go to "Import Library" -> "Add Library". In the search bar, search for the following libraries and install them.
 
 - **Kinect4WinSDK** by Bryan Chung (Windows) - library for use with Kinect
-- **Open Kinect for Processing** by Daniel Shiffman (Mac) - library for use with Kinect
+
 - **Keystone** by David Bouchard - library to map projections [guide](https://fh-potsdam.github.io/doing-projection-mapping/processing-keystone/)
 
-## Future Ideas
-- saturation or the shape changes depending on the number of people in the plain
-- project sillhouette onto panel (drake vibes)
-- adjust panels based on location x axis
 
 
